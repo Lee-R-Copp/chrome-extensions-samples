@@ -18,37 +18,57 @@ chrome.contextMenus.onClicked.addListener(genericOnClick);
 // A generic onclick callback function.
 function genericOnClick(info) {
   switch (info.menuItemId) {
-    case 'radio':
-      // Radio item function
-      console.log('Radio item clicked. Status:', info.checked);
-      break;
+    case 'audio':
+    // Audio item function
+    console.log('Audio item clicked.');
+    break;
+
     case 'checkbox':
-      // Checkbox item function
-      console.log('Checkbox item clicked. Status:', info.checked);
-      break;
+    // Checkbox item function
+    console.log('Checkbox item clicked. Status:', info.checked);
+    break;
+
+    case 'editable':
+    // Editable item function
+    console.log('Editable item clicked.');
+    break;
+
+    case 'radio':
+    // Radio item function
+    console.log('Radio item clicked. Status:', info.checked);
+    break;
+
+    case 'selection':
+    // Selection item function
+    console.log('Selection item clicked.');
+    break;
+
     default:
-      // Standard context menu item function
-      console.log('Standard context menu item clicked.');
+    // Standard context menu item function
+    console.log('Standard context menu item clicked.');
   }
 }
+
 chrome.runtime.onInstalled.addListener(function () {
   // Create one test item for each context type.
   let contexts = [
-    'page',
-    'selection',
-    'link',
+    'audio',
     'editable',
     'image',
-    'video',
-    'audio'
+    'link',
+    'page',
+    'selection',
+    'video'
   ];
+
   for (let i = 0; i < contexts.length; i++) {
     let context = contexts[i];
     let title = "Test '" + context + "' menu item";
+
     chrome.contextMenus.create({
-      title: title,
       contexts: [context],
-      id: context
+      id: context,
+      title: title,
     });
   }
 
@@ -57,11 +77,13 @@ chrome.runtime.onInstalled.addListener(function () {
     title: 'Test parent item',
     id: 'parent'
   });
+
   chrome.contextMenus.create({
     title: 'Child 1',
     parentId: parent,
     id: 'child1'
   });
+
   chrome.contextMenus.create({
     title: 'Child 2',
     parentId: parent,
